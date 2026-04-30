@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>حساب السكن</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0a0d14;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: rgba(255,255,255,0.07);
+    --accent-g: #00e5a0;
+    --accent-m: #6c8fff;
+    --text: #f0f4ff;
+    --text-muted: #6b7a99;
+    --danger: #ff4d6d;
+    --success: #00e5a0;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    direction: rtl;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* ─── Background ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(0,229,160,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 35% at 80% 80%, rgba(108,143,255,0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Login Screen ─── */
+  #login-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .login-logo {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, var(--accent-g), var(--accent-m));
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0,229,160,0.25);
+  }
+
+  .login-title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .login-sub {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 48px;
+  }
+
+  .login-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .login-cards {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .login-card {
+    flex: 1;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 22px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .login-card.ghazy::after { background: linear-gradient(135deg, rgba(0,229,160,0.12), transparent); }
+  .login-card.mazen::after { background: linear-gradient(135deg, rgba(108,143,255,0.12), transparent); }
+
+  .login-card:active::after { opacity: 1; }
+
+  .login-card:active {
+    transform: scale(0.97);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .login-card .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .login-card.ghazy .avatar { background: rgba(0,229,160,0.15); color: var(--accent-g); border: 2px solid rgba(0,229,160,0.3); }
+  .login-card.mazen .avatar { background: rgba(108,143,255,0.15); color: var(--accent-m); border: 2px solid rgba(108,143,255,0.3); }
+
+  .login-card .name { font-weight: 600; font-size: 15px; }
+
+  /* ─── App ─── */
+  #app {
+    display: none;
+    flex-direction: column;
+    min-height: 100dvh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    padding: 16px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,13,20,0.7);
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 10px; }
+
+  .header-user {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .header-user.me { background: rgba(0,229,160,0.15); color: var(--accent-g); border: 1.5px solid rgba(0,229,160,0.3); }
+  .header-user.friend { background: rgba(108,143,255,0.15); color: var(--accent-m); border: 1.5px solid rgba(108,143,255,0.3); }
+
+  .header-name { font-weight: 600; font-size: 15px; }
+  .header-status { font-size: 11px; color: var(--text-muted); }
+
+  .logout-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .logout-btn:active { background: var(--surface); color: var(--text); }
+
+  /* ─── Balance Cards ─── */
+  .balance-section {
+    padding: 16px 16px 0;
+  }
+
+  .balance-net {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .balance-net-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .balance-net-amount {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -1px;
+  }
+
+  .balance-net-amount.positive { color: var(--accent-g); }
+  .balance-net-amount.negative { color: #ff6b8a; }
+  .balance-net-amount.zero { color: var(--text-muted); }
+
+  .balance-net-badge {
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  .balance-net-badge.positive { background: rgba(0,229,160,0.12); color: var(--accent-g); border: 1px solid rgba(0,229,160,0.2); }
+  .balance-net-badge.negative { background: rgba(255,75,109,0.12); color: #ff6b8a; border: 1px solid rgba(255,75,109,0.2); }
+  .balance-net-badge.zero { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+
+  .balance-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .balance-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+  }
+
+  .balance-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+
+  .balance-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .dot-g { background: var(--accent-g); box-shadow: 0 0 6px var(--accent-g); }
+  .dot-m { background: var(--accent-m); box-shadow: 0 0 6px var(--accent-m); }
+
+  .balance-card-name { font-size: 12px; color: var(--text-muted); }
+  .balance-card-amount { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+
+  /* ─── Chat Feed ─── */
+  .feed-header {
+    padding: 4px 20px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .chat-feed {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 14px 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scroll-behavior: smooth;
+  }
+
+  .chat-feed::-webkit-scrollbar { width: 0; }
+
+  .msg-row {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    animation: msgIn 0.25s ease;
+  }
+
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg-row.me { align-self: flex-end; align-items: flex-end; }
+  .msg-row.friend { align-self: flex-start; align-items: flex-start; }
+
+  .msg-bubble {
+    padding: 11px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .msg-row.me .msg-bubble {
+    background: linear-gradient(135deg, rgba(0,229,160,0.2), rgba(0,229,160,0.1));
+    border: 1px solid rgba(0,229,160,0.25);
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg-row.friend .msg-bubble {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg-sender { font-size: 11px; font-weight: 600; margin-bottom: 3px; }
+  .msg-row.me .msg-sender { color: var(--accent-g); }
+  .msg-row.friend .msg-sender { color: var(--accent-m); }
+
+  .msg-desc { font-weight: 500; }
+
+  .msg-amount { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; margin: 4px 0 2px; }
+  .msg-row.me .msg-amount { color: var(--accent-g); }
+  .msg-row.friend .msg-amount { color: var(--accent-m); }
+
+  .msg-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .msg-tag.split { background: rgba(255,200,80,0.15); color: #ffca50; border: 1px solid rgba(255,200,80,0.2); }
+  .msg-tag.lend { background: rgba(255,107,138,0.15); color: #ff6b8a; border: 1px solid rgba(255,107,138,0.2); }
+
+  .msg-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .msg-time { font-size: 10px; color: var(--text-muted); }
+
+  .msg-actions { display: flex; gap: 4px; }
+
+  .action-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 11px;
+    padding: 3px 7px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+
+  .action-btn:active { background: rgba(255,255,255,0.12); color: var(--text); }
+  .action-btn.del:active { background: rgba(255,77,109,0.15); color: var(--danger); }
+
+  /* ─── Input Sheet ─── */
+  .input-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(17,24,39,0.96);
+    backdrop-filter: blur(24px);
+    border-top: 1px solid var(--border);
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    z-index: 20;
+  }
+
+  .input-type-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .type-chip {
+    padding: 9px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .type-chip.active.split-chip {
+    background: rgba(255,200,80,0.12);
+    border-color: rgba(255,200,80,0.4);
+    color: #ffca50;
+  }
+
+  .type-chip.active.lend-chip {
+    background: rgba(255,107,138,0.12);
+    border-color: rgba(255,107,138,0.4);
+    color: #ff6b8a;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .input-field {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+    direction: rtl;
+  }
+
+  .input-field:focus { border-color: rgba(0,229,160,0.4); }
+  .input-field::placeholder { color: var(--text-muted); }
+
+  .input-field.num { width: 100px; flex-shrink: 0; }
+  .input-field.desc { flex: 1; }
+
+  .send-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent-g), #00b87a);
+    border: none;
+    color: #0a0d14;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    box-shadow: 0 4px 14px rgba(0,229,160,0.3);
+  }
+
+  .send-btn:active { transform: scale(0.94); box-shadow: none; }
+
+  /* ─── Empty state ─── */
+  .empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 20px;
+    font-size: 14px;
+  }
+  .empty-icon { font-size: 40px; margin-bottom: 10px; }
+
+  /* ─── Toast ─── */
+  .toast {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 30px;
+    z-index: 100;
+    opacity: 0;
+    transition: all 0.3s;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+</style>
+</head>
+<body>
+
+<!-- ─── Login ─── -->
+<div id="login-screen">
+  <div class="login-logo">🏠</div>
+  <div class="login-title">حساب السكن</div>
+  <div class="login-sub">تتبع المصاريف المشتركة بسهولة</div>
+  <div class="login-label">اختر حسابك</div>
+  <div class="login-cards">
+    <div class="login-card ghazy" onclick="login('me')">
+      <div class="avatar">G</div>
+      <div class="name">Ghazy</div>
+    </div>
+    <div class="login-card mazen" onclick="login('friend')">
+      <div class="avatar">M</div>
+      <div class="name">Mazen</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── App ─── -->
+<div id="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-user" id="header-avatar"></div>
+      <div>
+        <div class="header-name" id="header-name"></div>
+        <div class="header-status">مسجّل الدخول</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="logout()">خروج</button>
+  </div>
+
+  <!-- Balance -->
+  <div class="balance-section">
+    <div class="balance-net">
+      <div>
+        <div class="balance-net-label">الرصيد الصافي</div>
+        <div class="balance-net-amount" id="net-amount">0.00</div>
+      </div>
+      <div class="balance-net-badge" id="net-badge">متوازن ✔️</div>
+    </div>
+    <div class="balance-row">
+      <div class="balance-card">
+        <div class="balance-card-header">
+          <div class="balance-dot dot-g"></div>
+          <div class="balance-card-name">Ghazy دفع</div>
+        </div>
+        <div class="balance-card-amount" id="ghazy-paid">0.00</div>
+      </div>
+      <div class="balance-card">
+        <div class="balance-card-header">
+          <div class="balance-dot dot-m"></div>
+          <div class="balance-card-name">Mazen دفع</div>
+        </div>
+        <div class="balance-card-amount" id="mazen-paid">0.00</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-header">السجل</div>
+
+  <!-- Feed -->
+  <div class="chat-feed" id="chat"></div>
+
+  <!-- Input Sheet -->
+  <div class="input-sheet">
+    <div class="input-type-row">
+      <button class="type-chip split-chip active" id="chip-split" onclick="setType('split')">⚖️ مشترك</button>
+      <button class="type-chip lend-chip" id="chip-lend" onclick="setType('lend')">💸 دفعت له</button>
+    </div>
+    <div class="input-row">
+      <input class="input-field desc" type="text" id="desc" placeholder="الوصف..." />
+      <input class="input-field num" type="number" id="amount" placeholder="المبلغ" inputmode="decimal"/>
+      <button class="send-btn" onclick="addExpense()">＋</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, addDoc, collection, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "room-expenses-af972.firebaseapp.com",
+  projectId: "room-expenses-af972"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let currentUser = null;
+let selectedType = 'split';
+
+// Toast
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Type selector
+window.setType = function(type) {
+  selectedType = type;
+  document.getElementById('chip-split').classList.toggle('active', type === 'split');
+  document.getElementById('chip-lend').classList.toggle('active', type === 'lend');
+};
+
+// Login
+window.login = function(user) {
+  currentUser = user;
+  const isMe = user === 'me';
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('app').style.flexDirection = 'column';
+
+  const av = document.getElementById('header-avatar');
+  av.textContent = isMe ? 'G' : 'M';
+  av.className = 'header-user ' + user;
+  document.getElementById('header-name').textContent = isMe ? 'Ghazy' : 'Mazen';
+};
+
+// Logout
+window.logout = function() {
+  currentUser = null;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+};
+
+// Add
+window.addExpense = async function() {
+  const amount = parseFloat(document.getElementById('amount').value);
+  const desc = document.getElementById('desc').value.trim();
+
+  if (isNaN(amount) || amount <= 0) { toast('أدخل مبلغاً صحيحاً'); return; }
+  if (!desc) { toast('أدخل وصفاً'); return; }
+
+  await addDoc(collection(db, 'expenses'), {
+    payer: currentUser,
+    amount,
+    desc,
+    type: selectedType,
+    time: new Date().toISOString()
+  });
+
+  document.getElementById('amount').value = '';
+  document.getElementById('desc').value = '';
+  toast('تمت الإضافة ✓');
+};
+
+// Delete
+window.deleteExpense = async function(id) {
+  if (!confirm('حذف هذا السجل؟')) return;
+  await deleteDoc(doc(db, 'expenses', id));
+  toast('تم الحذف');
+};
+
+// Edit
+window.editExpense = async function(id) {
+  const val = prompt('المبلغ الجديد:');
+  if (!val) return;
+  const n = parseFloat(val);
+  if (isNaN(n)) return;
+  await updateDoc(doc(db, 'expenses', id), { amount: n });
+  toast('تم التعديل ✓');
+};
+
+// Realtime
+onSnapshot(collection(db, 'expenses'), (snapshot) => {
+  const chat = document.getElementById('chat');
+  chat.innerHTML = '';
+
+  const docs = [];
+  snapshot.forEach(d => docs.push({ id: d.id, ...d.data() }));
+  docs.sort((a, b) => a.time.localeCompare(b.time));
+
+  if (docs.length === 0) {
+    chat.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>لا توجد مصاريف بعد</div>';
+  }
+
+  let myPaid = 0, friendPaid = 0, myShare = 0;
+
+  docs.forEach(data => {
+    if (data.type === 'split') {
+      const half = data.amount / 2;
+      if (data.payer === 'me') myPaid += data.amount;
+      else friendPaid += data.amount;
+      myShare += half;
+    } else {
+      if (data.payer === 'me') {
+        myPaid += data.amount;
+        myShare += data.amount;
+      } else {
+        friendPaid += data.amount;
+      }
+    }
+
+    const name = data.payer === 'me' ? 'Ghazy' : 'Mazen';
+    const date = new Date(data.time).toLocaleString('en-US', {
+      day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+    });
+
+    const isMe = currentUser && data.payer === currentUser;
+
+    const row = document.createElement('div');
+    row.className = 'msg-row ' + (data.payer === 'me' ? 'me' : 'friend');
+
+    row.innerHTML = `
+      <div class="msg-sender">${name}</div>
+      <div class="msg-bubble">
+        <span class="msg-tag ${data.type}">${data.type === 'split' ? '⚖️ مشترك' : '💸 دفعت له'}</span><br>
+        <span class="msg-desc">${data.desc}</span>
+        <div class="msg-amount">${data.amount.toFixed(2)}</div>
+      </div>
+      <div class="msg-meta">
+        <span class="msg-time">${date}</span>
+        ${isMe ? `<div class="msg-actions">
+          <button class="action-btn" onclick="editExpense('${data.id}')">✏️</button>
+          <button class="action-btn del" onclick="deleteExpense('${data.id}')">🗑</button>
+        </div>` : ''}
+      </div>
+    `;
+
+    chat.appendChild(row);
+  });
+
+  chat.scrollTop = chat.scrollHeight;
+
+  // Totals
+  const net = myPaid - myShare;
+
+  document.getElementById('ghazy-paid').textContent = myPaid.toFixed(2);
+  document.getElementById('mazen-paid').textContent = friendPaid.toFixed(2);
+
+  const netEl = document.getElementById('net-amount');
+  const badgeEl = document.getElementById('net-badge');
+
+  if (net > 0.01) {
+    netEl.textContent = '+' + net.toFixed(2);
+    netEl.className = 'balance-net-amount positive';
+    badgeEl.textContent = 'Mazen مدين 💵';
+    badgeEl.className = 'balance-net-badge positive';
+  } else if (net < -0.01) {
+    netEl.textContent = net.toFixed(2);
+    netEl.className = 'balance-net-amount negative';
+    badgeEl.textContent = 'أنت مدين 💸';
+    badgeEl.className = 'balance-net-badge negative';
+  } else {
+    netEl.textContent = '0.00';
+    netEl.className = 'balance-net-amount zero';
+    badgeEl.textContent = 'متوازن ✔️';
+    badgeEl.className = 'balance-net-badge zero';
+  }
+});
+</script>
+</body>
+</html>
