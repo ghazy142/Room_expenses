@@ -715,8 +715,6 @@ onSnapshot(collection(db, 'expenses'), (snapshot) => {
       day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
     });
 
-    const isMe = currentUser && data.payer === currentUser;
-
     const row = document.createElement('div');
     row.className = 'msg-row ' + (data.payer === 'me' ? 'me' : 'friend');
 
@@ -729,10 +727,10 @@ onSnapshot(collection(db, 'expenses'), (snapshot) => {
       </div>
       <div class="msg-meta">
         <span class="msg-time">${date}</span>
-        ${isMe ? `<div class="msg-actions">
+        <div class="msg-actions">
           <button class="action-btn" onclick="editExpense('${data.id}')">✏️</button>
           <button class="action-btn del" onclick="deleteExpense('${data.id}')">🗑</button>
-        </div>` : ''}
+        </div>
       </div>
     `;
 
