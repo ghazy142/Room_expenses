@@ -35,7 +35,6 @@
     overflow-x: hidden;
   }
 
-  /* ─── Background ─── */
   body::before {
     content: '';
     position: fixed;
@@ -47,7 +46,7 @@
     z-index: 0;
   }
 
-  /* ─── Login Screen ─── */
+  /* ─── Login ─── */
   #login-screen {
     flex: 1;
     display: flex;
@@ -60,46 +59,20 @@
   }
 
   .login-logo {
-    width: 72px;
-    height: 72px;
+    width: 72px; height: 72px;
     background: linear-gradient(135deg, var(--accent-g), var(--accent-m));
     border-radius: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 36px;
     margin-bottom: 20px;
     box-shadow: 0 8px 32px rgba(0,229,160,0.25);
   }
 
-  .login-title {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
-  }
+  .login-title { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .login-sub   { color: var(--text-muted); font-size: 14px; margin-bottom: 48px; }
+  .login-label { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
 
-  .login-sub {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 48px;
-  }
-
-  .login-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-  }
-
-  .login-cards {
-    display: flex;
-    gap: 14px;
-    width: 100%;
-    max-width: 340px;
-  }
+  .login-cards { display: flex; gap: 14px; width: 100%; max-width: 340px; }
 
   .login-card {
     flex: 1;
@@ -109,401 +82,225 @@
     padding: 22px 16px;
     cursor: pointer;
     transition: all 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    position: relative; overflow: hidden;
   }
 
-  .login-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
+  .login-card::after { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s; }
   .login-card.ghazy::after { background: linear-gradient(135deg, rgba(0,229,160,0.12), transparent); }
   .login-card.mazen::after { background: linear-gradient(135deg, rgba(108,143,255,0.12), transparent); }
-
   .login-card:active::after { opacity: 1; }
-
-  .login-card:active {
-    transform: scale(0.97);
-    border-color: rgba(255,255,255,0.15);
-  }
+  .login-card:active { transform: scale(0.97); border-color: rgba(255,255,255,0.15); }
 
   .login-card .avatar {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: 700;
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 700;
   }
-
   .login-card.ghazy .avatar { background: rgba(0,229,160,0.15); color: var(--accent-g); border: 2px solid rgba(0,229,160,0.3); }
   .login-card.mazen .avatar { background: rgba(108,143,255,0.15); color: var(--accent-m); border: 2px solid rgba(108,143,255,0.3); }
-
   .login-card .name { font-weight: 600; font-size: 15px; }
 
   /* ─── App ─── */
-  #app {
-    display: none;
-    flex-direction: column;
-    min-height: 100dvh;
-    position: relative;
-    z-index: 1;
-  }
+  #app { display: none; flex-direction: column; min-height: 100dvh; position: relative; z-index: 1; }
 
   /* ─── Header ─── */
   .header {
     padding: 16px 20px 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
     border-bottom: 1px solid var(--border);
     background: rgba(10,13,20,0.7);
     backdrop-filter: blur(20px);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    position: sticky; top: 0; z-index: 10;
   }
 
   .header-left { display: flex; align-items: center; gap: 10px; }
 
   .header-user {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
   }
-
-  .header-user.me { background: rgba(0,229,160,0.15); color: var(--accent-g); border: 1.5px solid rgba(0,229,160,0.3); }
+  .header-user.me     { background: rgba(0,229,160,0.15); color: var(--accent-g); border: 1.5px solid rgba(0,229,160,0.3); }
   .header-user.friend { background: rgba(108,143,255,0.15); color: var(--accent-m); border: 1.5px solid rgba(108,143,255,0.3); }
 
-  .header-name { font-weight: 600; font-size: 15px; }
+  .header-name   { font-weight: 600; font-size: 15px; }
   .header-status { font-size: 11px; color: var(--text-muted); }
 
   .logout-btn {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 12px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text-muted); font-size: 12px; padding: 6px 12px;
+    border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.15s;
   }
   .logout-btn:active { background: var(--surface); color: var(--text); }
 
-  /* ─── Balance Cards ─── */
-  .balance-section {
-    padding: 16px 16px 0;
-  }
+  /* ─── Balance ─── */
+  .balance-section { padding: 16px 16px 0; }
 
   .balance-net {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between;
   }
-
-  .balance-net-label {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-  }
-
-  .balance-net-amount {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -1px;
-  }
-
+  .balance-net-label  { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .balance-net-amount { font-size: 26px; font-weight: 700; letter-spacing: -1px; }
   .balance-net-amount.positive { color: var(--accent-g); }
   .balance-net-amount.negative { color: #ff6b8a; }
-  .balance-net-amount.zero { color: var(--text-muted); }
+  .balance-net-amount.zero     { color: var(--text-muted); }
 
-  .balance-net-badge {
-    font-size: 11px;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-weight: 600;
-  }
-
+  .balance-net-badge { font-size: 11px; padding: 5px 10px; border-radius: 20px; font-weight: 600; }
   .balance-net-badge.positive { background: rgba(0,229,160,0.12); color: var(--accent-g); border: 1px solid rgba(0,229,160,0.2); }
   .balance-net-badge.negative { background: rgba(255,75,109,0.12); color: #ff6b8a; border: 1px solid rgba(255,75,109,0.2); }
-  .balance-net-badge.zero { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .balance-net-badge.zero     { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
 
-  .balance-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
+  .balance-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
 
-  .balance-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px;
-  }
-
+  .balance-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; }
   .balance-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 
-  .balance-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
+  .balance-dot { width: 8px; height: 8px; border-radius: 50%; }
   .dot-g { background: var(--accent-g); box-shadow: 0 0 6px var(--accent-g); }
   .dot-m { background: var(--accent-m); box-shadow: 0 0 6px var(--accent-m); }
 
-  .balance-card-name { font-size: 12px; color: var(--text-muted); }
+  .balance-card-name   { font-size: 12px; color: var(--text-muted); }
   .balance-card-amount { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
 
-  /* ─── Chat Feed ─── */
-  .feed-header {
-    padding: 4px 20px 10px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+  /* ─── Feed ─── */
+  .feed-header { padding: 4px 20px 10px; font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
   .chat-feed {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0 14px 160px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    scroll-behavior: smooth;
+    flex: 1; overflow-y: auto; padding: 0 14px 160px;
+    display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth;
   }
-
   .chat-feed::-webkit-scrollbar { width: 0; }
 
-  .msg-row {
-    display: flex;
-    flex-direction: column;
-    max-width: 80%;
-    animation: msgIn 0.25s ease;
-  }
+  .msg-row { display: flex; flex-direction: column; max-width: 80%; animation: msgIn 0.25s ease; }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  @keyframes msgIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .msg-row.me { align-self: flex-end; align-items: flex-end; }
+  .msg-row.me     { align-self: flex-end; align-items: flex-end; }
   .msg-row.friend { align-self: flex-start; align-items: flex-start; }
 
-  .msg-bubble {
-    padding: 11px 14px;
-    border-radius: 14px;
-    font-size: 14px;
-    line-height: 1.5;
-    position: relative;
-  }
-
-  .msg-row.me .msg-bubble {
-    background: linear-gradient(135deg, rgba(0,229,160,0.2), rgba(0,229,160,0.1));
-    border: 1px solid rgba(0,229,160,0.25);
-    border-bottom-right-radius: 4px;
-  }
-
-  .msg-row.friend .msg-bubble {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-bottom-left-radius: 4px;
-  }
+  .msg-bubble { padding: 11px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
+  .msg-row.me .msg-bubble     { background: linear-gradient(135deg, rgba(0,229,160,0.2), rgba(0,229,160,0.1)); border: 1px solid rgba(0,229,160,0.25); border-bottom-right-radius: 4px; }
+  .msg-row.friend .msg-bubble { background: var(--surface2); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
 
   .msg-sender { font-size: 11px; font-weight: 600; margin-bottom: 3px; }
-  .msg-row.me .msg-sender { color: var(--accent-g); }
+  .msg-row.me .msg-sender     { color: var(--accent-g); }
   .msg-row.friend .msg-sender { color: var(--accent-m); }
 
-  .msg-desc { font-weight: 500; }
-
+  .msg-desc   { font-weight: 500; }
   .msg-amount { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; margin: 4px 0 2px; }
-  .msg-row.me .msg-amount { color: var(--accent-g); }
+  .msg-row.me .msg-amount     { color: var(--accent-g); }
   .msg-row.friend .msg-amount { color: var(--accent-m); }
 
-  .msg-tag {
-    display: inline-block;
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 10px;
-    margin-bottom: 4px;
-    font-weight: 600;
-  }
-
+  .msg-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; margin-bottom: 4px; font-weight: 600; }
   .msg-tag.split { background: rgba(255,200,80,0.15); color: #ffca50; border: 1px solid rgba(255,200,80,0.2); }
-  .msg-tag.lend { background: rgba(255,107,138,0.15); color: #ff6b8a; border: 1px solid rgba(255,107,138,0.2); }
+  .msg-tag.lend  { background: rgba(255,107,138,0.15); color: #ff6b8a; border: 1px solid rgba(255,107,138,0.2); }
 
-  .msg-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 4px;
-  }
-
-  .msg-time { font-size: 10px; color: var(--text-muted); }
-
+  .msg-meta    { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .msg-time    { font-size: 10px; color: var(--text-muted); }
   .msg-actions { display: flex; gap: 4px; }
 
   .action-btn {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 11px;
-    padding: 3px 7px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+    color: var(--text-muted); font-size: 11px; padding: 3px 7px;
+    border-radius: 6px; cursor: pointer; font-family: inherit; transition: all 0.15s;
   }
-
-  .action-btn:active { background: rgba(255,255,255,0.12); color: var(--text); }
+  .action-btn:active     { background: rgba(255,255,255,0.12); color: var(--text); }
   .action-btn.del:active { background: rgba(255,77,109,0.15); color: var(--danger); }
 
   /* ─── Input Sheet ─── */
   .input-sheet {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(17,24,39,0.96);
-    backdrop-filter: blur(24px);
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(17,24,39,0.96); backdrop-filter: blur(24px);
     border-top: 1px solid var(--border);
     padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
     z-index: 20;
   }
 
-  .input-type-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
+  .input-type-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 
   .type-chip {
-    padding: 9px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid var(--border);
-    background: var(--surface);
-    color: var(--text-muted);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+    padding: 9px; border-radius: var(--radius-sm); border: 1.5px solid var(--border);
+    background: var(--surface); color: var(--text-muted); font-family: inherit;
+    font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
   }
+  .type-chip.active.split-chip { background: rgba(255,200,80,0.12); border-color: rgba(255,200,80,0.4); color: #ffca50; }
+  .type-chip.active.lend-chip  { background: rgba(255,107,138,0.12); border-color: rgba(255,107,138,0.4); color: #ff6b8a; }
 
-  .type-chip.active.split-chip {
-    background: rgba(255,200,80,0.12);
-    border-color: rgba(255,200,80,0.4);
-    color: #ffca50;
-  }
-
-  .type-chip.active.lend-chip {
-    background: rgba(255,107,138,0.12);
-    border-color: rgba(255,107,138,0.4);
-    color: #ff6b8a;
-  }
-
-  .input-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
+  .input-row { display: flex; gap: 8px; align-items: center; }
 
   .input-field {
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 14px;
-    padding: 11px 14px;
-    outline: none;
-    transition: border-color 0.15s;
-    direction: rtl;
+    background: var(--surface2); border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text); font-family: inherit;
+    font-size: 14px; padding: 11px 14px; outline: none; transition: border-color 0.15s; direction: rtl;
   }
-
-  .input-field:focus { border-color: rgba(0,229,160,0.4); }
+  .input-field:focus       { border-color: rgba(0,229,160,0.4); }
   .input-field::placeholder { color: var(--text-muted); }
-
-  .input-field.num { width: 100px; flex-shrink: 0; }
+  .input-field.num  { width: 100px; flex-shrink: 0; }
   .input-field.desc { flex: 1; }
 
   .send-btn {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
+    width: 46px; height: 46px; border-radius: 12px;
     background: linear-gradient(135deg, var(--accent-g), #00b87a);
-    border: none;
-    color: #0a0d14;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.15s;
-    box-shadow: 0 4px 14px rgba(0,229,160,0.3);
+    border: none; color: #0a0d14; font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.15s; box-shadow: 0 4px 14px rgba(0,229,160,0.3);
   }
-
   .send-btn:active { transform: scale(0.94); box-shadow: none; }
 
-  /* ─── Empty state ─── */
-  .empty {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 40px 20px;
-    font-size: 14px;
-  }
+  /* ─── Empty ─── */
+  .empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 14px; }
   .empty-icon { font-size: 40px; margin-bottom: 10px; }
 
   /* ─── Toast ─── */
   .toast {
-    position: fixed;
-    top: 70px;
-    left: 50%;
+    position: fixed; top: 70px; left: 50%;
     transform: translateX(-50%) translateY(-10px);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-size: 13px;
-    padding: 10px 18px;
-    border-radius: 30px;
-    z-index: 100;
-    opacity: 0;
-    transition: all 0.3s;
-    white-space: nowrap;
-    pointer-events: none;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); font-size: 13px; padding: 10px 18px;
+    border-radius: 30px; z-index: 100; opacity: 0; transition: all 0.3s;
+    white-space: nowrap; pointer-events: none;
   }
-
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+  /* ─── Modal ─── */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    display: flex; align-items: flex-end; justify-content: center;
+    z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px 20px 0 0; padding: 24px 20px 36px;
+    width: 100%; max-width: 480px;
+    transform: translateY(40px); transition: transform 0.25s;
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+
+  .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+
+  .modal-input {
+    width: 100%; background: var(--surface2); border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text); font-family: inherit;
+    font-size: 15px; padding: 12px 14px; outline: none; direction: rtl;
+    margin-bottom: 14px; transition: border-color 0.15s;
+  }
+  .modal-input:focus { border-color: rgba(0,229,160,0.4); }
+
+  .modal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .modal-btn {
+    padding: 12px; border-radius: var(--radius-sm); border: none;
+    font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .modal-btn.cancel { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .modal-btn.confirm { background: linear-gradient(135deg, var(--accent-g), #00b87a); color: #0a0d14; }
+  .modal-btn.danger  { background: rgba(255,77,109,0.15); color: var(--danger); border: 1px solid rgba(255,77,109,0.25); }
+  .modal-btn:active  { transform: scale(0.97); }
 </style>
 </head>
 <body>
@@ -529,7 +326,6 @@
 <!-- ─── App ─── -->
 <div id="app">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-left">
       <div class="header-user" id="header-avatar"></div>
@@ -541,7 +337,6 @@
     <button class="logout-btn" onclick="logout()">خروج</button>
   </div>
 
-  <!-- Balance -->
   <div class="balance-section">
     <div class="balance-net">
       <div>
@@ -569,44 +364,70 @@
   </div>
 
   <div class="feed-header">السجل</div>
-
-  <!-- Feed -->
   <div class="chat-feed" id="chat"></div>
 
-  <!-- Input Sheet -->
   <div class="input-sheet">
     <div class="input-type-row">
       <button class="type-chip split-chip active" id="chip-split" onclick="setType('split')">⚖️ مشترك</button>
-      <button class="type-chip lend-chip" id="chip-lend" onclick="setType('lend')">💸 دفعت له</button>
+      <button class="type-chip lend-chip"         id="chip-lend"  onclick="setType('lend')">💸 دفعت له</button>
     </div>
     <div class="input-row">
-      <input class="input-field desc" type="text" id="desc" placeholder="الوصف..." />
-      <input class="input-field num" type="number" id="amount" placeholder="المبلغ" inputmode="decimal"/>
+      <input class="input-field desc" type="text"   id="desc"   placeholder="الوصف..." />
+      <input class="input-field num"  type="number" id="amount" placeholder="المبلغ" inputmode="decimal"/>
       <button class="send-btn" onclick="addExpense()">＋</button>
     </div>
   </div>
+</div>
 
+<!-- ─── Delete Modal ─── -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal-box">
+    <div class="modal-title">تأكيد الحذف</div>
+    <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px;">هل تريد حذف هذا السجل؟</p>
+    <div class="modal-btns">
+      <button class="modal-btn cancel"  onclick="closeModal('delete-modal')">إلغاء</button>
+      <button class="modal-btn danger"  id="confirm-delete-btn">حذف</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Edit Modal ─── -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <div class="modal-title">تعديل المبلغ</div>
+    <input class="modal-input" type="number" id="edit-amount-input" placeholder="المبلغ الجديد" inputmode="decimal"/>
+    <div class="modal-btns">
+      <button class="modal-btn cancel"  onclick="closeModal('edit-modal')">إلغاء</button>
+      <button class="modal-btn confirm" id="confirm-edit-btn">حفظ</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, addDoc, collection, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, addDoc, collection, onSnapshot, deleteDoc, doc, updateDoc }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// ✅ Firebase config كامل
 const firebaseConfig = {
-  apiKey: "AIzaSy...",
-  authDomain: "room-expenses-af972.firebaseapp.com",
-  projectId: "room-expenses-af972"
+  apiKey:            "AIzaSyDeNa-5ltXKbwIGghUkEDQKEXqkMtU9cy4",
+  authDomain:        "room-expenses-af972.firebaseapp.com",
+  projectId:         "room-expenses-af972",
+  storageBucket:     "room-expenses-af972.firebasestorage.app",
+  messagingSenderId: "249471352888",
+  appId:             "1:249471352888:web:57b0f7a932b7cfe73e26cd",
+  measurementId:     "G-78RXZKXW1M"
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db  = getFirestore(app);
 
-let currentUser = null;
+let currentUser  = null;
 let selectedType = 'split';
 
-// Toast
+/* ── Toast ── */
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -614,73 +435,111 @@ function toast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// Type selector
+/* ── Modal helpers ── */
+window.closeModal = function(id) {
+  document.getElementById(id).classList.remove('open');
+};
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+
+// إغلاق المودال بالضغط على الخلفية
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => {
+    if (e.target === el) el.classList.remove('open');
+  });
+});
+
+/* ── Type selector ── */
 window.setType = function(type) {
   selectedType = type;
   document.getElementById('chip-split').classList.toggle('active', type === 'split');
-  document.getElementById('chip-lend').classList.toggle('active', type === 'lend');
+  document.getElementById('chip-lend').classList.toggle('active',  type === 'lend');
 };
 
-// Login
+/* ── Login ── */
 window.login = function(user) {
   currentUser = user;
-  const isMe = user === 'me';
+  const isMe  = user === 'me';
   document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  document.getElementById('app').style.flexDirection = 'column';
+  const appEl = document.getElementById('app');
+  appEl.style.display       = 'flex';
+  appEl.style.flexDirection = 'column';
 
   const av = document.getElementById('header-avatar');
   av.textContent = isMe ? 'G' : 'M';
-  av.className = 'header-user ' + user;
+  av.className   = 'header-user ' + user;
   document.getElementById('header-name').textContent = isMe ? 'Ghazy' : 'Mazen';
 };
 
-// Logout
+/* ── Logout ── */
 window.logout = function() {
   currentUser = null;
-  document.getElementById('app').style.display = 'none';
+  document.getElementById('app').style.display        = 'none';
   document.getElementById('login-screen').style.display = 'flex';
 };
 
-// Add
+/* ── Add expense ── */
 window.addExpense = async function() {
   const amount = parseFloat(document.getElementById('amount').value);
-  const desc = document.getElementById('desc').value.trim();
+  const desc   = document.getElementById('desc').value.trim();
 
   if (isNaN(amount) || amount <= 0) { toast('أدخل مبلغاً صحيحاً'); return; }
-  if (!desc) { toast('أدخل وصفاً'); return; }
+  if (!desc)                         { toast('أدخل وصفاً');          return; }
 
-  await addDoc(collection(db, 'expenses'), {
-    payer: currentUser,
-    amount,
-    desc,
-    type: selectedType,
-    time: new Date().toISOString()
-  });
-
-  document.getElementById('amount').value = '';
-  document.getElementById('desc').value = '';
-  toast('تمت الإضافة ✓');
+  try {
+    await addDoc(collection(db, 'expenses'), {
+      payer: currentUser,
+      amount,
+      desc,
+      type: selectedType,
+      time: new Date().toISOString()
+    });
+    document.getElementById('amount').value = '';
+    document.getElementById('desc').value   = '';
+    toast('تمت الإضافة ✓');
+  } catch (err) {
+    console.error(err);
+    toast('خطأ في الإضافة، تحقق من الاتصال');
+  }
 };
 
-// Delete
-window.deleteExpense = async function(id) {
-  if (!confirm('حذف هذا السجل؟')) return;
-  await deleteDoc(doc(db, 'expenses', id));
-  toast('تم الحذف');
+/* ── Delete ── */
+window.deleteExpense = function(id) {
+  openModal('delete-modal');
+  document.getElementById('confirm-delete-btn').onclick = async () => {
+    closeModal('delete-modal');
+    try {
+      await deleteDoc(doc(db, 'expenses', id));
+      toast('تم الحذف');
+    } catch (err) {
+      console.error(err);
+      toast('خطأ في الحذف');
+    }
+  };
 };
 
-// Edit
-window.editExpense = async function(id) {
-  const val = prompt('المبلغ الجديد:');
-  if (!val) return;
-  const n = parseFloat(val);
-  if (isNaN(n)) return;
-  await updateDoc(doc(db, 'expenses', id), { amount: n });
-  toast('تم التعديل ✓');
+/* ── Edit ── */
+window.editExpense = function(id, currentAmount) {
+  const input = document.getElementById('edit-amount-input');
+  input.value = currentAmount;
+  openModal('edit-modal');
+  document.getElementById('confirm-edit-btn').onclick = async () => {
+    const n = parseFloat(input.value);
+    if (isNaN(n) || n <= 0) { toast('مبلغ غير صحيح'); return; }
+    closeModal('edit-modal');
+    try {
+      await updateDoc(doc(db, 'expenses', id), { amount: n });
+      toast('تم التعديل ✓');
+    } catch (err) {
+      console.error(err);
+      toast('خطأ في التعديل');
+    }
+  };
 };
 
-// Realtime
+/* ── Realtime listener ── */
 onSnapshot(collection(db, 'expenses'), (snapshot) => {
   const chat = document.getElementById('chat');
   chat.innerHTML = '';
@@ -693,77 +552,137 @@ onSnapshot(collection(db, 'expenses'), (snapshot) => {
     chat.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>لا توجد مصاريف بعد</div>';
   }
 
-  let myPaid = 0, friendPaid = 0, myShare = 0;
+  // ✅ منطق الرصيد الصحيح
+  // ghazy = 'me' | mazen = 'friend'
+  let ghazyPaid = 0;   // إجمالي ما دفعه Ghazy
+  let mazenPaid = 0;   // إجمالي ما دفعه Mazen
+  // الدَّيْن الصافي: موجب = Mazen مدين لـ Ghazy / سالب = Ghazy مدين لـ Mazen
+  let netDebt = 0;
 
   docs.forEach(data => {
+    const paidByGhazy = data.payer === 'me';
+
     if (data.type === 'split') {
+      // مشترك: كل واحد يتحمل النص
       const half = data.amount / 2;
-      if (data.payer === 'me') myPaid += data.amount;
-      else friendPaid += data.amount;
-      myShare += half;
-    } else {
-      if (data.payer === 'me') {
-        myPaid += data.amount;
-        myShare += data.amount;
+      if (paidByGhazy) {
+        ghazyPaid += data.amount;
+        netDebt   += half;   // Mazen مدين بالنص
       } else {
-        friendPaid += data.amount;
+        mazenPaid += data.amount;
+        netDebt   -= half;   // Ghazy مدين بالنص
+      }
+    } else {
+      // lend: من دفع يُحسب له كامل المبلغ ديناً على الآخر
+      if (paidByGhazy) {
+        ghazyPaid += data.amount;
+        netDebt   += data.amount;  // Mazen مدين بالكامل
+      } else {
+        mazenPaid += data.amount;
+        netDebt   -= data.amount;  // Ghazy مدين بالكامل
       }
     }
 
-    const name = data.payer === 'me' ? 'Ghazy' : 'Mazen';
+    // ✅ بناء الرسالة بدون XSS (textContent بدل innerHTML للوصف)
+    const name = paidByGhazy ? 'Ghazy' : 'Mazen';
     const date = new Date(data.time).toLocaleString('en-US', {
       day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
     });
 
     const row = document.createElement('div');
-    row.className = 'msg-row ' + (data.payer === 'me' ? 'me' : 'friend');
+    row.className = 'msg-row ' + (paidByGhazy ? 'me' : 'friend');
 
-    row.innerHTML = `
-      <div class="msg-sender">${name}</div>
-      <div class="msg-bubble">
-        <span class="msg-tag ${data.type}">${data.type === 'split' ? '⚖️ مشترك' : '💸 دفعت له'}</span><br>
-        <span class="msg-desc">${data.desc}</span>
-        <div class="msg-amount">${data.amount.toFixed(2)}</div>
-      </div>
-      <div class="msg-meta">
-        <span class="msg-time">${date}</span>
-        <div class="msg-actions">
-          <button class="action-btn" onclick="editExpense('${data.id}')">✏️</button>
-          <button class="action-btn del" onclick="deleteExpense('${data.id}')">🗑</button>
-        </div>
-      </div>
-    `;
+    const tagText    = data.type === 'split' ? '⚖️ مشترك' : '💸 دفعت له';
+
+    // Bubble
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+
+    const tag = document.createElement('span');
+    tag.className = 'msg-tag ' + data.type;
+    tag.textContent = tagText;
+
+    const br = document.createElement('br');
+
+    const descSpan = document.createElement('span');
+    descSpan.className   = 'msg-desc';
+    descSpan.textContent = data.desc;   // ✅ textContent — آمن من XSS
+
+    const amountDiv = document.createElement('div');
+    amountDiv.className   = 'msg-amount';
+    amountDiv.textContent = data.amount.toFixed(2);
+
+    bubble.appendChild(tag);
+    bubble.appendChild(br);
+    bubble.appendChild(descSpan);
+    bubble.appendChild(amountDiv);
+
+    // Sender
+    const sender = document.createElement('div');
+    sender.className   = 'msg-sender';
+    sender.textContent = name;
+
+    // Meta
+    const meta = document.createElement('div');
+    meta.className = 'msg-meta';
+
+    const timeSpan = document.createElement('span');
+    timeSpan.className   = 'msg-time';
+    timeSpan.textContent = date;
+
+    const actions = document.createElement('div');
+    actions.className = 'msg-actions';
+
+    const editBtn = document.createElement('button');
+    editBtn.className   = 'action-btn';
+    editBtn.textContent = '✏️';
+    editBtn.onclick     = () => window.editExpense(data.id, data.amount);
+
+    const delBtn = document.createElement('button');
+    delBtn.className   = 'action-btn del';
+    delBtn.textContent = '🗑';
+    delBtn.onclick     = () => window.deleteExpense(data.id);
+
+    actions.appendChild(editBtn);
+    actions.appendChild(delBtn);
+    meta.appendChild(timeSpan);
+    meta.appendChild(actions);
+
+    row.appendChild(sender);
+    row.appendChild(bubble);
+    row.appendChild(meta);
 
     chat.appendChild(row);
   });
 
   chat.scrollTop = chat.scrollHeight;
 
-  // Totals
-  const net = myPaid - myShare;
+  // ── تحديث الأرقام ──
+  document.getElementById('ghazy-paid').textContent = ghazyPaid.toFixed(2);
+  document.getElementById('mazen-paid').textContent = mazenPaid.toFixed(2);
 
-  document.getElementById('ghazy-paid').textContent = myPaid.toFixed(2);
-  document.getElementById('mazen-paid').textContent = friendPaid.toFixed(2);
-
-  const netEl = document.getElementById('net-amount');
+  const netEl   = document.getElementById('net-amount');
   const badgeEl = document.getElementById('net-badge');
 
-  if (net > 0.01) {
-    netEl.textContent = '+' + net.toFixed(2);
-    netEl.className = 'balance-net-amount positive';
+  if (netDebt > 0.01) {
+    netEl.textContent = '+' + netDebt.toFixed(2);
+    netEl.className   = 'balance-net-amount positive';
     badgeEl.textContent = 'Mazen مدين 💵';
-    badgeEl.className = 'balance-net-badge positive';
-  } else if (net < -0.01) {
-    netEl.textContent = net.toFixed(2);
-    netEl.className = 'balance-net-amount negative';
-    badgeEl.textContent = 'أنت مدين 💸';
-    badgeEl.className = 'balance-net-badge negative';
+    badgeEl.className   = 'balance-net-badge positive';
+  } else if (netDebt < -0.01) {
+    netEl.textContent = netDebt.toFixed(2);
+    netEl.className   = 'balance-net-amount negative';
+    badgeEl.textContent = 'Ghazy مدين 💸';
+    badgeEl.className   = 'balance-net-badge negative';
   } else {
     netEl.textContent = '0.00';
-    netEl.className = 'balance-net-amount zero';
+    netEl.className   = 'balance-net-amount zero';
     badgeEl.textContent = 'متوازن ✔️';
-    badgeEl.className = 'balance-net-badge zero';
+    badgeEl.className   = 'balance-net-badge zero';
   }
+}, (error) => {
+  console.error('Firebase error:', error);
+  toast('خطأ في الاتصال بالقاعدة');
 });
 </script>
 </body>
