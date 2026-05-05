@@ -2,7 +2,10 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>حساب السكن</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -18,11 +21,22 @@
     --text-muted: #6b7a99;
     --danger: #ff4d6d;
     --success: #00e5a0;
-    --radius: 16px;
+    --radius: 14px;
     --radius-sm: 10px;
+
+    /* ─── Mobile touch targets ─── */
+    --tap-min: 48px;   /* minimum touch target height */
+    --font-base: clamp(13px, 3.8vw, 16px);
+    --font-sm:   clamp(11px, 3vw,   13px);
+    --font-xs:   clamp(10px, 2.6vw, 12px);
+    --font-lg:   clamp(15px, 4.2vw, 18px);
+    --font-xl:   clamp(20px, 5.5vw, 26px);
+    --pad-h: clamp(12px, 4vw, 20px);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html { height: -webkit-fill-available; }
 
   body {
     font-family: 'IBM Plex Sans Arabic', sans-serif;
@@ -30,9 +44,13 @@
     color: var(--text);
     direction: rtl;
     min-height: 100dvh;
+    min-height: -webkit-fill-available;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    font-size: var(--font-base);
+    /* Prevent pull-to-refresh on iOS */
+    overscroll-behavior-y: none;
   }
 
   body::before {
@@ -53,37 +71,63 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 32px 24px;
+    padding: 32px var(--pad-h);
     position: relative;
     z-index: 1;
   }
 
   .login-logo {
-    width: 72px; height: 72px;
+    width: clamp(60px, 18vw, 80px);
+    height: clamp(60px, 18vw, 80px);
     background: linear-gradient(135deg, var(--accent-g), var(--accent-m));
-    border-radius: 22px;
+    border-radius: clamp(18px, 5vw, 24px);
     display: flex; align-items: center; justify-content: center;
-    font-size: 36px;
-    margin-bottom: 20px;
+    font-size: clamp(28px, 8vw, 38px);
+    margin-bottom: clamp(14px, 4vw, 20px);
     box-shadow: 0 8px 32px rgba(0,229,160,0.25);
   }
 
-  .login-title { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
-  .login-sub   { color: var(--text-muted); font-size: 14px; margin-bottom: 48px; }
-  .login-label { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .login-title {
+    font-size: clamp(22px, 6.5vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .login-sub {
+    color: var(--text-muted);
+    font-size: var(--font-sm);
+    margin-bottom: clamp(32px, 9vw, 52px);
+    text-align: center;
+  }
+  .login-label {
+    font-size: var(--font-xs);
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
 
-  .login-cards { display: flex; gap: 14px; width: 100%; max-width: 340px; }
+  .login-cards {
+    display: flex;
+    gap: clamp(10px, 3vw, 16px);
+    width: 100%;
+    max-width: 340px;
+  }
 
   .login-card {
     flex: 1;
     border: 1.5px solid var(--border);
     background: var(--surface);
     border-radius: var(--radius);
-    padding: 22px 16px;
+    padding: clamp(18px, 5vw, 26px) clamp(12px, 3.5vw, 18px);
     cursor: pointer;
     transition: all 0.2s ease;
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: clamp(8px, 2.5vw, 12px);
     position: relative; overflow: hidden;
+    /* min touch target */
+    min-height: 110px;
   }
 
   .login-card::after { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s; }
@@ -93,118 +137,195 @@
   .login-card:active { transform: scale(0.97); border-color: rgba(255,255,255,0.15); }
 
   .login-card .avatar {
-    width: 52px; height: 52px; border-radius: 50%;
+    width: clamp(46px, 13vw, 58px);
+    height: clamp(46px, 13vw, 58px);
+    border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 700;
+    font-size: clamp(18px, 5vw, 24px);
+    font-weight: 700;
   }
   .login-card.ghazy .avatar { background: rgba(0,229,160,0.15); color: var(--accent-g); border: 2px solid rgba(0,229,160,0.3); }
   .login-card.mazen .avatar { background: rgba(108,143,255,0.15); color: var(--accent-m); border: 2px solid rgba(108,143,255,0.3); }
-  .login-card .name { font-weight: 600; font-size: 15px; }
+  .login-card .name { font-weight: 600; font-size: var(--font-lg); }
 
   /* ─── App ─── */
   #app { display: none; flex-direction: column; min-height: 100dvh; position: relative; z-index: 1; }
 
   /* ─── Header ─── */
   .header {
-    padding: 16px 20px 12px;
+    padding: clamp(10px, 3vw, 16px) var(--pad-h);
     display: flex; align-items: center; justify-content: space-between;
     border-bottom: 1px solid var(--border);
-    background: rgba(10,13,20,0.7);
+    background: rgba(10,13,20,0.85);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     position: sticky; top: 0; z-index: 10;
+    min-height: 56px;
   }
 
   .header-left { display: flex; align-items: center; gap: 10px; }
 
   .header-user {
-    width: 36px; height: 36px; border-radius: 50%;
+    width: clamp(34px, 9vw, 40px);
+    height: clamp(34px, 9vw, 40px);
+    border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 14px;
+    font-weight: 700;
+    font-size: clamp(13px, 3.5vw, 16px);
+    flex-shrink: 0;
   }
   .header-user.me     { background: rgba(0,229,160,0.15); color: var(--accent-g); border: 1.5px solid rgba(0,229,160,0.3); }
   .header-user.friend { background: rgba(108,143,255,0.15); color: var(--accent-m); border: 1.5px solid rgba(108,143,255,0.3); }
 
-  .header-name   { font-weight: 600; font-size: 15px; }
-  .header-status { font-size: 11px; color: var(--text-muted); }
+  .header-name   { font-weight: 600; font-size: var(--font-base); }
+  .header-status { font-size: var(--font-xs); color: var(--text-muted); }
 
   .logout-btn {
-    background: var(--surface2); border: 1px solid var(--border);
-    color: var(--text-muted); font-size: 12px; padding: 6px 12px;
-    border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.15s;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: var(--font-xs);
+    padding: 0 clamp(10px, 3vw, 14px);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    height: clamp(32px, 8.5vw, 38px);
+    min-width: 56px;
+    white-space: nowrap;
   }
   .logout-btn:active { background: var(--surface); color: var(--text); }
 
   /* ─── Balance ─── */
-  .balance-section { padding: 16px 16px 0; }
+  .balance-section { padding: clamp(10px, 3vw, 16px) var(--pad-h) 0; }
 
   .balance-net {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(14px, 4vw, 20px) clamp(14px, 4vw, 20px);
+    margin-bottom: clamp(8px, 2.5vw, 12px);
     display: flex; align-items: center; justify-content: space-between;
+    gap: 8px;
   }
-  .balance-net-label  { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
-  .balance-net-amount { font-size: 26px; font-weight: 700; letter-spacing: -1px; }
+  .balance-net-label  { font-size: var(--font-xs); color: var(--text-muted); margin-bottom: 3px; }
+  .balance-net-amount {
+    font-size: var(--font-xl);
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
   .balance-net-amount.positive { color: var(--accent-g); }
   .balance-net-amount.negative { color: #ff6b8a; }
   .balance-net-amount.zero     { color: var(--text-muted); }
 
-  .balance-net-badge { font-size: 11px; padding: 5px 10px; border-radius: 20px; font-weight: 600; }
+  .balance-net-badge {
+    font-size: var(--font-xs);
+    padding: clamp(4px, 1.2vw, 6px) clamp(8px, 2.5vw, 12px);
+    border-radius: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
   .balance-net-badge.positive { background: rgba(0,229,160,0.12); color: var(--accent-g); border: 1px solid rgba(0,229,160,0.2); }
   .balance-net-badge.negative { background: rgba(255,75,109,0.12); color: #ff6b8a; border: 1px solid rgba(255,75,109,0.2); }
   .balance-net-badge.zero     { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
 
-  .balance-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .balance-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(8px, 2.5vw, 12px);
+    margin-bottom: clamp(10px, 3vw, 16px);
+  }
 
-  .balance-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; }
-  .balance-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .balance-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: clamp(10px, 3vw, 16px);
+  }
+  .balance-card-header { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
 
-  .balance-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .balance-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
   .dot-g { background: var(--accent-g); box-shadow: 0 0 6px var(--accent-g); }
   .dot-m { background: var(--accent-m); box-shadow: 0 0 6px var(--accent-m); }
 
-  .balance-card-name   { font-size: 12px; color: var(--text-muted); }
-  .balance-card-amount { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+  .balance-card-name   { font-size: var(--font-xs); color: var(--text-muted); }
+  .balance-card-amount { font-size: clamp(18px, 5vw, 22px); font-weight: 700; letter-spacing: -0.5px; }
 
-  /* ─── Feed ─── */
-  .feed-header { padding: 4px 20px 10px; font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  /* ─── Feed header ─── */
+  .feed-header {
+    padding: 4px var(--pad-h) 8px;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 
+  /* ─── Chat feed ─── */
   .chat-feed {
-    flex: 1; overflow-y: auto; padding: 0 14px 160px;
-    display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth;
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 clamp(10px, 3vw, 16px) 200px;
+    display: flex; flex-direction: column;
+    gap: clamp(8px, 2.5vw, 12px);
+    scroll-behavior: smooth;
   }
   .chat-feed::-webkit-scrollbar { width: 0; }
 
-  .msg-row { display: flex; flex-direction: column; max-width: 80%; animation: msgIn 0.25s ease; }
+  .msg-row {
+    display: flex;
+    flex-direction: column;
+    max-width: clamp(82%, 88vw, 88%);
+    animation: msgIn 0.25s ease;
+  }
   @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
   .msg-row.me     { align-self: flex-end; align-items: flex-end; }
   .msg-row.friend { align-self: flex-start; align-items: flex-start; }
 
-  .msg-bubble { padding: 11px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
+  .msg-bubble {
+    padding: clamp(9px, 2.8vw, 13px) clamp(11px, 3.2vw, 16px);
+    border-radius: 14px;
+    font-size: var(--font-base);
+    line-height: 1.55;
+  }
   .msg-row.me .msg-bubble     { background: linear-gradient(135deg, rgba(0,229,160,0.2), rgba(0,229,160,0.1)); border: 1px solid rgba(0,229,160,0.25); border-bottom-right-radius: 4px; }
   .msg-row.friend .msg-bubble { background: var(--surface2); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
 
-  .msg-sender { font-size: 11px; font-weight: 600; margin-bottom: 3px; }
+  .msg-sender { font-size: var(--font-xs); font-weight: 600; margin-bottom: 3px; }
   .msg-row.me .msg-sender     { color: var(--accent-g); }
   .msg-row.friend .msg-sender { color: var(--accent-m); }
 
   .msg-desc   { font-weight: 500; }
-  .msg-amount { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; margin: 4px 0 2px; }
+  .msg-amount { font-size: clamp(16px, 4.8vw, 20px); font-weight: 700; letter-spacing: -0.5px; margin: 4px 0 2px; }
   .msg-row.me .msg-amount     { color: var(--accent-g); }
   .msg-row.friend .msg-amount { color: var(--accent-m); }
 
-  .msg-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; margin-bottom: 4px; font-weight: 600; }
+  .msg-tag { display: inline-block; font-size: var(--font-xs); padding: 2px 7px; border-radius: 10px; margin-bottom: 3px; font-weight: 600; }
   .msg-tag.split { background: rgba(255,200,80,0.15); color: #ffca50; border: 1px solid rgba(255,200,80,0.2); }
   .msg-tag.lend  { background: rgba(255,107,138,0.15); color: #ff6b8a; border: 1px solid rgba(255,107,138,0.2); }
 
-  .msg-meta    { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-  .msg-time    { font-size: 10px; color: var(--text-muted); }
-  .msg-actions { display: flex; gap: 4px; }
+  .msg-meta    { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
+  .msg-time    { font-size: var(--font-xs); color: var(--text-muted); }
+  .msg-actions { display: flex; gap: 5px; }
 
   .action-btn {
-    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
-    color: var(--text-muted); font-size: 11px; padding: 3px 7px;
-    border-radius: 6px; cursor: pointer; font-family: inherit; transition: all 0.15s;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: clamp(13px, 3.5vw, 15px);
+    /* larger tap target */
+    min-width: var(--tap-min);
+    min-height: var(--tap-min);
+    padding: 0 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
   }
   .action-btn:active     { background: rgba(255,255,255,0.12); color: var(--text); }
   .action-btn.del:active { background: rgba(255,77,109,0.15); color: var(--danger); }
@@ -212,95 +333,178 @@
   /* ─── Input Sheet ─── */
   .input-sheet {
     position: fixed; bottom: 0; left: 0; right: 0;
-    background: rgba(17,24,39,0.96); backdrop-filter: blur(24px);
+    background: rgba(17,24,39,0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-top: 1px solid var(--border);
-    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    padding: clamp(10px, 3vw, 14px) var(--pad-h);
+    padding-bottom: calc(clamp(10px, 3vw, 14px) + env(safe-area-inset-bottom, 0px));
     z-index: 20;
   }
 
-  .input-type-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .input-type-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(6px, 2vw, 10px);
+    margin-bottom: clamp(8px, 2.5vw, 12px);
+  }
 
   .type-chip {
-    padding: 9px; border-radius: var(--radius-sm); border: 1.5px solid var(--border);
-    background: var(--surface); color: var(--text-muted); font-family: inherit;
-    font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 0 clamp(8px, 2.5vw, 12px);
+    height: var(--tap-min);
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: clamp(12px, 3.5vw, 14px);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    white-space: nowrap;
   }
   .type-chip.active.split-chip { background: rgba(255,200,80,0.12); border-color: rgba(255,200,80,0.4); color: #ffca50; }
   .type-chip.active.lend-chip  { background: rgba(255,107,138,0.12); border-color: rgba(255,107,138,0.4); color: #ff6b8a; }
 
-  .input-row { display: flex; gap: 8px; align-items: center; }
+  .input-row {
+    display: flex;
+    gap: clamp(6px, 2vw, 10px);
+    align-items: center;
+  }
 
   .input-field {
-    background: var(--surface2); border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm); color: var(--text); font-family: inherit;
-    font-size: 14px; padding: 11px 14px; outline: none; transition: border-color 0.15s; direction: rtl;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: inherit;
+    font-size: clamp(14px, 4vw, 16px);
+    padding: 0 clamp(10px, 3vw, 14px);
+    height: var(--tap-min);
+    outline: none;
+    transition: border-color 0.15s;
+    direction: rtl;
+    /* Prevent iOS zoom on focus (font-size >= 16px) */
+    -webkit-text-size-adjust: 100%;
   }
   .input-field:focus       { border-color: rgba(0,229,160,0.4); }
   .input-field::placeholder { color: var(--text-muted); }
-  .input-field.num  { width: 100px; flex-shrink: 0; }
-  .input-field.desc { flex: 1; }
+
+  .input-field.num  { width: clamp(80px, 24vw, 110px); flex-shrink: 0; }
+  .input-field.desc { flex: 1; min-width: 0; }
 
   .send-btn {
-    width: 46px; height: 46px; border-radius: 12px;
+    width: var(--tap-min);
+    height: var(--tap-min);
+    border-radius: 12px;
     background: linear-gradient(135deg, var(--accent-g), #00b87a);
-    border: none; color: #0a0d14; font-size: 20px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    transition: all 0.15s; box-shadow: 0 4px 14px rgba(0,229,160,0.3);
+    border: none;
+    color: #0a0d14;
+    font-size: clamp(20px, 5.5vw, 24px);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    box-shadow: 0 4px 14px rgba(0,229,160,0.3);
+    font-weight: 700;
   }
-  .send-btn:active { transform: scale(0.94); box-shadow: none; }
+  .send-btn:active { transform: scale(0.93); box-shadow: none; }
 
   /* ─── Empty ─── */
-  .empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 14px; }
-  .empty-icon { font-size: 40px; margin-bottom: 10px; }
+  .empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: var(--font-base); }
+  .empty-icon { font-size: clamp(32px, 10vw, 44px); margin-bottom: 10px; }
 
   /* ─── Toast ─── */
   .toast {
-    position: fixed; top: 70px; left: 50%;
+    position: fixed;
+    top: max(70px, calc(56px + env(safe-area-inset-top, 0px)));
+    left: 50%;
     transform: translateX(-50%) translateY(-10px);
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text); font-size: 13px; padding: 10px 18px;
-    border-radius: 30px; z-index: 100; opacity: 0; transition: all 0.3s;
-    white-space: nowrap; pointer-events: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: var(--font-sm);
+    padding: clamp(8px, 2.5vw, 11px) clamp(14px, 4.5vw, 20px);
+    border-radius: 30px;
+    z-index: 100;
+    opacity: 0;
+    transition: all 0.3s;
+    white-space: nowrap;
+    pointer-events: none;
+    max-width: 80vw;
+    text-align: center;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* ─── Modal ─── */
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75);
     display: flex; align-items: flex-end; justify-content: center;
     z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.2s;
   }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
 
   .modal-box {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 20px 20px 0 0; padding: 24px 20px 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px 20px 0 0;
+    padding: clamp(20px, 6vw, 28px) var(--pad-h);
+    padding-bottom: calc(clamp(24px, 7vw, 36px) + env(safe-area-inset-bottom, 0px));
     width: 100%; max-width: 480px;
     transform: translateY(40px); transition: transform 0.25s;
   }
   .modal-overlay.open .modal-box { transform: translateY(0); }
 
-  .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+  .modal-title { font-size: var(--font-lg); font-weight: 600; margin-bottom: 12px; }
+
+  .modal-desc { color: var(--text-muted); font-size: var(--font-sm); margin-bottom: clamp(16px, 5vw, 24px); }
 
   .modal-input {
-    width: 100%; background: var(--surface2); border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm); color: var(--text); font-family: inherit;
-    font-size: 15px; padding: 12px 14px; outline: none; direction: rtl;
-    margin-bottom: 14px; transition: border-color 0.15s;
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: inherit;
+    font-size: clamp(15px, 4.5vw, 17px);
+    padding: 0 14px;
+    height: clamp(48px, 13vw, 56px);
+    outline: none;
+    direction: rtl;
+    margin-bottom: 14px;
+    transition: border-color 0.15s;
   }
   .modal-input:focus { border-color: rgba(0,229,160,0.4); }
 
   .modal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
   .modal-btn {
-    padding: 12px; border-radius: var(--radius-sm); border: none;
-    font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    height: clamp(46px, 12vw, 54px);
+    border-radius: var(--radius-sm);
+    border: none;
+    font-family: inherit;
+    font-size: var(--font-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
   }
-  .modal-btn.cancel { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .modal-btn.cancel  { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
   .modal-btn.confirm { background: linear-gradient(135deg, var(--accent-g), #00b87a); color: #0a0d14; }
   .modal-btn.danger  { background: rgba(255,77,109,0.15); color: var(--danger); border: 1px solid rgba(255,77,109,0.25); }
   .modal-btn:active  { transform: scale(0.97); }
+
+  /* ─── Extra small screens (< 360px) ─── */
+  @media (max-width: 359px) {
+    :root {
+      --tap-min: 44px;
+      --pad-h: 10px;
+    }
+    .login-cards { gap: 8px; }
+    .balance-card-amount { font-size: 16px; }
+    .msg-row { max-width: 92%; }
+  }
 </style>
 </head>
 <body>
@@ -373,7 +577,7 @@
     </div>
     <div class="input-row">
       <input class="input-field desc" type="text"   id="desc"   placeholder="الوصف..." />
-      <input class="input-field num"  type="number" id="amount" placeholder="المبلغ" inputmode="decimal"/>
+      <input class="input-field num"  type="number" id="amount" placeholder="المبلغ" inputmode="decimal" step="any"/>
       <button class="send-btn" onclick="addExpense()">＋</button>
     </div>
   </div>
@@ -383,7 +587,7 @@
 <div class="modal-overlay" id="delete-modal">
   <div class="modal-box">
     <div class="modal-title">تأكيد الحذف</div>
-    <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px;">هل تريد حذف هذا السجل؟</p>
+    <p class="modal-desc">هل تريد حذف هذا السجل؟</p>
     <div class="modal-btns">
       <button class="modal-btn cancel"  onclick="closeModal('delete-modal')">إلغاء</button>
       <button class="modal-btn danger"  id="confirm-delete-btn">حذف</button>
@@ -395,7 +599,7 @@
 <div class="modal-overlay" id="edit-modal">
   <div class="modal-box">
     <div class="modal-title">تعديل المبلغ</div>
-    <input class="modal-input" type="number" id="edit-amount-input" placeholder="المبلغ الجديد" inputmode="decimal"/>
+    <input class="modal-input" type="number" id="edit-amount-input" placeholder="المبلغ الجديد" inputmode="decimal" step="any"/>
     <div class="modal-btns">
       <button class="modal-btn cancel"  onclick="closeModal('edit-modal')">إلغاء</button>
       <button class="modal-btn confirm" id="confirm-edit-btn">حفظ</button>
@@ -410,7 +614,6 @@ import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/fir
 import { getFirestore, addDoc, collection, onSnapshot, deleteDoc, doc, updateDoc }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ✅ Firebase config كامل
 const firebaseConfig = {
   apiKey:            "AIzaSyDeNa-5ltXKbwIGghUkEDQKEXqkMtU9cy4",
   authDomain:        "room-expenses-af972.firebaseapp.com",
@@ -444,7 +647,6 @@ function openModal(id) {
   document.getElementById(id).classList.add('open');
 }
 
-// إغلاق المودال بالضغط على الخلفية
 document.querySelectorAll('.modal-overlay').forEach(el => {
   el.addEventListener('click', e => {
     if (e.target === el) el.classList.remove('open');
@@ -552,61 +754,42 @@ onSnapshot(collection(db, 'expenses'), (snapshot) => {
     chat.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>لا توجد مصاريف بعد</div>';
   }
 
-  // ✅ منطق الرصيد الصحيح
-  // ghazy = 'me' | mazen = 'friend'
-  let ghazyPaid = 0;   // إجمالي ما دفعه Ghazy
-  let mazenPaid = 0;   // إجمالي ما دفعه Mazen
-  // الدَّيْن الصافي: موجب = Mazen مدين لـ Ghazy / سالب = Ghazy مدين لـ Mazen
-  let netDebt = 0;
+  let ghazyPaid = 0;
+  let mazenPaid = 0;
+  let netDebt   = 0;
 
   docs.forEach(data => {
     const paidByGhazy = data.payer === 'me';
 
     if (data.type === 'split') {
-      // مشترك: كل واحد يتحمل النص
       const half = data.amount / 2;
-      if (paidByGhazy) {
-        ghazyPaid += data.amount;
-        netDebt   += half;   // Mazen مدين بالنص
-      } else {
-        mazenPaid += data.amount;
-        netDebt   -= half;   // Ghazy مدين بالنص
-      }
+      if (paidByGhazy) { ghazyPaid += data.amount; netDebt += half; }
+      else             { mazenPaid += data.amount; netDebt -= half; }
     } else {
-      // lend: من دفع يُحسب له كامل المبلغ ديناً على الآخر
-      if (paidByGhazy) {
-        ghazyPaid += data.amount;
-        netDebt   += data.amount;  // Mazen مدين بالكامل
-      } else {
-        mazenPaid += data.amount;
-        netDebt   -= data.amount;  // Ghazy مدين بالكامل
-      }
+      if (paidByGhazy) { ghazyPaid += data.amount; netDebt += data.amount; }
+      else             { mazenPaid += data.amount; netDebt -= data.amount; }
     }
 
-    // ✅ بناء الرسالة بدون XSS (textContent بدل innerHTML للوصف)
     const name = paidByGhazy ? 'Ghazy' : 'Mazen';
     const date = new Date(data.time).toLocaleString('en-US', {
       day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
     });
 
-    const row = document.createElement('div');
+    const row    = document.createElement('div');
     row.className = 'msg-row ' + (paidByGhazy ? 'me' : 'friend');
 
-    const tagText    = data.type === 'split' ? '⚖️ مشترك' : '💸 دفعت له';
-
-    // Bubble
     const bubble = document.createElement('div');
     bubble.className = 'msg-bubble';
 
     const tag = document.createElement('span');
-    tag.className = 'msg-tag ' + data.type;
-    tag.textContent = tagText;
+    tag.className   = 'msg-tag ' + data.type;
+    tag.textContent = data.type === 'split' ? '⚖️ مشترك' : '💸 دفعت له';
 
     const br = document.createElement('br');
 
     const descSpan = document.createElement('span');
     descSpan.className   = 'msg-desc';
-    descSpan.textContent = data.desc;   // ✅ textContent — آمن من XSS
+    descSpan.textContent = data.desc;
 
     const amountDiv = document.createElement('div');
     amountDiv.className   = 'msg-amount';
@@ -617,13 +800,11 @@ onSnapshot(collection(db, 'expenses'), (snapshot) => {
     bubble.appendChild(descSpan);
     bubble.appendChild(amountDiv);
 
-    // Sender
     const sender = document.createElement('div');
     sender.className   = 'msg-sender';
     sender.textContent = name;
 
-    // Meta
-    const meta = document.createElement('div');
+    const meta    = document.createElement('div');
     meta.className = 'msg-meta';
 
     const timeSpan = document.createElement('span');
@@ -657,7 +838,6 @@ onSnapshot(collection(db, 'expenses'), (snapshot) => {
 
   chat.scrollTop = chat.scrollHeight;
 
-  // ── تحديث الأرقام ──
   document.getElementById('ghazy-paid').textContent = ghazyPaid.toFixed(2);
   document.getElementById('mazen-paid').textContent = mazenPaid.toFixed(2);
 
